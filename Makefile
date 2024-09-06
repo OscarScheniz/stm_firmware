@@ -15,6 +15,37 @@
 ######################################
 TARGET = stm_firmware
 
+######################################
+# Segger J-Link configuration
+######################################
+
+
+# NOTE
+JLINK = 1		#Comment out this line if you have native STLink on the STM32 board
+# NOTE
+
+
+ifdef JLINK 
+JLINK_DEVICE ?= STM32F303K8
+JLINK_SPEED ?= 4000
+
+JLINK_FLAGS = -device $(JLINK_DEVICE) -if swd -speed $(JLINK_SPEED) -exitonerror 1
+JLINK_EXE = JLinkExe -nogui 1
+JLINK_GDB = JLinkGDBServer -nogui 1
+
+JLINK_GDBINIT ?= \
+	target remote localhost:2331\n\
+	set mem inaccessible-by-default off
+
+HELP_TEXT += \n\
+  flash - Flash using J-Link\n\
+  reset - Reset the target MCU using J-Link\n\
+  erase - Erase flash using J-Link\n\
+  gdb - Start J-Link GDB server\n\
+  cdtdebug - Start debugger (cdtdebug) and connect to the GDB server\n\
+  debug - Start debugger (gdb -tui) and connect to the GDB server\n\
+  rtt - Start J-Link RTT server
+endif
 
 ######################################
 # building variables
@@ -190,13 +221,33 @@ $(BUILD_DIR):
 #######################################
 clean:
 	-rm -fR $(BUILD_DIR)
+ifdef JLINK
+flash: $(BUILD_DIR)/$(TARGET).hex
+	$(CMD_ECHO) echo "loadfile $^\n\
+	r\n\
+	g\n\
+	q\n" | $(JLINK_EXE) $(JLINK_FLAGS)
+	$(CMD_ECHO) echo "Flash Completed"
+
+reset:
+	$(CMD_ECHO) echo "r\n\
+	g\n\
+	q\n" | $(JLINK_EXE) $(JLINK_FLAGS)
+	$(CMD_ECHO) echo "Reset Completed"
+
+erase:
+	$(CMD_ECHO) echo "erase\n\
+	r\n\
+	q\n" | $(JLINK_EXE) $(JLINK_FLAGS)
+	$(CMD_ECHO) echo "Erase Completed"
+else
 
 flash: all
 	st-flash --reset write build/$(TARGET).bin 0x8000000
 
 erase:
 	st-flash --reset erase
-  
+endif
 #######################################
 # dependencies
 #######################################

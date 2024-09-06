@@ -104,6 +104,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+    HAL_Delay(1000);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_SET);
+    HAL_Delay(1000);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
 
     /* USER CODE BEGIN 3 */
   }
