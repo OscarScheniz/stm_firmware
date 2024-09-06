@@ -10,3 +10,12 @@ Run `make` to build the project.
 ## Flash
 
 Run `make flash` to flash the project onto the MCU.
+
+## Debug
+
+### SEGGER Ozone
+Segger Ozone has many features that makes debugging easier. In order to use Ozone we need a Segger JLink Debugger or we could use the STLink Debugger fitted on the Nucleo Board.
+To use the STLink Debugger we need to reflash it with JLink FW. Do this by following these steps: https://www.segger.com/products/debug-probes/j-link/models/other-j-links/st-link-on-board/
+
+### STM32CubeIDE
+You could also use the STM32CubeIDE to debug but it is not recommended.
