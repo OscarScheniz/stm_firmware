@@ -6,3 +6,5 @@ Debug
 .mxproject
 
 STM32CubeIDE
+
+*.user
