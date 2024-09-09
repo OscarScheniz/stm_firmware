@@ -175,17 +175,43 @@ void motor_control_set(MOTOR motor, uint8_t percentage)
   }
 }
 
+void motor_control_forward(void)
+{
+  motor_control_set(FRONT_RIGHT, 100);
+  motor_control_set(FRONT_LEFT, 100);
+  motor_control_set(REAR_RIGHT, 100);
+  motor_control_set(REAR_LEFT, 100);
+}
+
+void motor_control_backward(void)
+{
+  /**
+   * TBD
+   */
+}
+
+void motor_control_turn_left(void)
+{
+  motor_control_set(FRONT_RIGHT, 100 * 0.5);
+  motor_control_set(FRONT_LEFT, 100);
+  motor_control_set(REAR_RIGHT, 100 * 0.5);
+  motor_control_set(REAR_LEFT, 100);
+}
+
+void motor_control_turn_right(void)
+{
+  motor_control_set(FRONT_RIGHT, 100);
+  motor_control_set(FRONT_LEFT, 100 * 0.5);
+  motor_control_set(REAR_RIGHT, 100);
+  motor_control_set(REAR_LEFT, 100 * 0.5 );
+}
+
 void motor_control_stop(void)
 {
-  motor_control_set(Motor_0, 0);
-  motor_control_set(Motor_1, 0);
-  motor_control_set(Motor_2, 0);
-  motor_control_set(Motor_3, 0);
-
-  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
-  HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
-  HAL_TIM_PWM_Stop(&htim17, TIM_CHANNEL_1);
+  motor_control_set(FRONT_LEFT, 0);
+  motor_control_set(FRONT_RIGHT, 0);
+  motor_control_set(REAR_LEFT, 0);
+  motor_control_set(REAR_RIGHT, 0);
 }
 
 void motor_control_start(void)

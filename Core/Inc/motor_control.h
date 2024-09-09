@@ -6,15 +6,15 @@
 
 typedef enum 
 {
-    Motor_0,
-    Motor_1,
-    Motor_2,
-    Motor_3
+    FRONT_LEFT,
+    FRONT_RIGHT,
+    REAR_LEFT,
+    REAR_RIGHT
 }MOTOR;
 
 void motor_control_init(void);
 void motor_control_start(void);
-void motor_control_set(MOTOR motor, uint8_t percentage);
+//void motor_control_set(MOTOR motor, uint8_t percentage);
 
 
 #endif /* __MOTOR_CONTROL_H */
