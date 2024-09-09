@@ -3,7 +3,8 @@
 #include "timers.h"
 #include "error_handling.h"
 
-#define DUTY_CYCLE_MS 1050
+#define PWM_PULSE_MIN 1050
+#define PWM_PULSE_MAX 1950
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
@@ -37,7 +38,7 @@ static void pwm_tim2_init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = DUTY_CYCLE_MS;
+  sConfigOC.Pulse = PWM_PULSE_MIN;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
@@ -80,7 +81,7 @@ static void pwm_tim3_init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = DUTY_CYCLE_MS;
+  sConfigOC.Pulse = PWM_PULSE_MIN;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
@@ -118,7 +119,7 @@ static void pwm_tim17_init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = DUTY_CYCLE_MS;
+  sConfigOC.Pulse = PWM_PULSE_MIN;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -147,31 +148,39 @@ static void pwm_tim17_init(void)
 
 static void set_pwm(MOTOR motor, uint8_t percentage)
 {
-    if(percentage > 100)
-    {
-        percentage = 100;
-    }
-    
-    uint32_t compare_value = (DUTY_CYCLE_MS * percentage) / 100;
+  if(percentage > 100)
+  {
+      percentage = 100;
+  }
+  
+  uint32_t compare_value = (PWM_PULSE_MIN * percentage) / 100;
 
-    switch(motor)
-    {
-        case Motor_0:
-        __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, compare_value);
-        break;
+  switch(motor)
+  {
+      case Motor_0:
+      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, compare_value);
+      break;
 
-        case Motor_1:
-        __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, compare_value);
-        break;
+      case Motor_1:
+      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, compare_value);
+      break;
 
-        case Motor_2:
-        __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, compare_value);
-        break;
+      case Motor_2:
+      __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, compare_value);
+      break;
 
-        case Motor_3:
-        __HAL_TIM_SET_COMPARE(&htim17, TIM_CHANNEL_1, compare_value);
-        break;
-    }
+      case Motor_3:
+      __HAL_TIM_SET_COMPARE(&htim17, TIM_CHANNEL_1, compare_value);
+      break;
+  }
+}
+
+void motor_control_start(void)
+{
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim17, TIM_CHANNEL_1);
 }
 
 void motor_control_init(void)
