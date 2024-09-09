@@ -1,6 +1,7 @@
 build
 Debug
 
+.vscode
 .DS_Store
 .settings/stm32cubeide*
 .mxproject
