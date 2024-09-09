@@ -153,24 +153,24 @@ static void set_pwm(MOTOR motor, uint8_t percentage)
       percentage = 100;
   }
   
-  uint32_t compare_value = (PWM_PULSE_MIN * percentage) / 100;
+  uint32_t pwm_value = PWM_PULSE_MIN + (percentage * (PWM_PULSE_MAX - PWM_PULSE_MIN)) / 100;
 
   switch(motor)
   {
       case Motor_0:
-      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, compare_value);
+      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pwm_value);
       break;
 
       case Motor_1:
-      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, compare_value);
+      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pwm_value);
       break;
 
       case Motor_2:
-      __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, compare_value);
+      __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, pwm_value);
       break;
 
       case Motor_3:
-      __HAL_TIM_SET_COMPARE(&htim17, TIM_CHANNEL_1, compare_value);
+      __HAL_TIM_SET_COMPARE(&htim17, TIM_CHANNEL_1, pwm_value);
       break;
   }
 }

@@ -41,10 +41,6 @@ HELP_TEXT += \n\
   flash - Flash using J-Link\n\
   reset - Reset the target MCU using J-Link\n\
   erase - Erase flash using J-Link\n\
-  gdb - Start J-Link GDB server\n\
-  cdtdebug - Start debugger (cdtdebug) and connect to the GDB server\n\
-  debug - Start debugger (gdb -tui) and connect to the GDB server\n\
-  rtt - Start J-Link RTT server
 endif
 
 ######################################
