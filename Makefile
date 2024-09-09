@@ -68,8 +68,10 @@ BUILD_DIR = build
 # C sources
 C_SOURCES =  \
 Core/Src/main.c \
+Core/Src/timers.c \
+Core/Src/pwm.c \
+Core/Src/error_handling.c \
 Core/Src/stm32f3xx_it.c \
-Core/Src/stm32f3xx_hal_msp.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.c \
@@ -241,7 +243,6 @@ erase:
 	q\n" | $(JLINK_EXE) $(JLINK_FLAGS)
 	$(CMD_ECHO) echo "Erase Completed"
 else
-
 flash: all
 	st-flash --reset write build/$(TARGET).bin 0x8000000
 
