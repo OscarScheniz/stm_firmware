@@ -175,6 +175,19 @@ void motor_control_set(MOTOR motor, uint8_t percentage)
   }
 }
 
+void motor_control_stop(void)
+{
+  motor_control_set(Motor_0, 0);
+  motor_control_set(Motor_1, 0);
+  motor_control_set(Motor_2, 0);
+  motor_control_set(Motor_3, 0);
+
+  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Stop(&htim17, TIM_CHANNEL_1);
+}
+
 void motor_control_start(void)
 {
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);

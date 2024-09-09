@@ -102,7 +102,6 @@ int main(void)
   motor_control_init();
   motor_control_start();
   
-  motor_control_set(Motor_0, 50);
 
   /* Infinite loop */
   while (1)
