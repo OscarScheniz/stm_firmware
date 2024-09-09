@@ -3,7 +3,7 @@ Debug
 
 .vscode
 .DS_Store
-.settings/stm32cubeide*
+.settings
 .mxproject
 
 STM32CubeIDE

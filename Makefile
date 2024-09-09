@@ -41,6 +41,7 @@ HELP_TEXT += \n\
   flash - Flash using J-Link\n\
   reset - Reset the target MCU using J-Link\n\
   erase - Erase flash using J-Link\n\
+
 endif
 
 ######################################
