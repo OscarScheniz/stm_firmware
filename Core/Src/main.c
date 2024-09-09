@@ -15,7 +15,7 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-#include "pwm.h"
+#include "motor_control.h"
 #include "error_handling.h"
 
 #define GREEN_LED_Pin GPIO_PIN_3
@@ -81,6 +81,8 @@ void SystemClock_Config(void)
   }
 }
 
+
+
 /**
   * @brief  The application entry point.
   * @retval int
@@ -97,16 +99,14 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  pwm_tim2_init();
-  pwm_tim3_init();
-  pwm_tim17_init();
+  motor_control_init();
 
   /* Infinite loop */
   while (1)
   {
-    HAL_Delay(1000);
+    HAL_Delay(500);
     HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_SET);
-    HAL_Delay(1000);
+    HAL_Delay(500);
     HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
   }
 }

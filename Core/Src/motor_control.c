@@ -1,5 +1,5 @@
 
-#include "pwm.h"
+#include "motor_control.h"
 #include "timers.h"
 #include "error_handling.h"
 
@@ -15,7 +15,7 @@ TIM_HandleTypeDef htim17;
   * @param None
   * @retval None
   */
-void pwm_tim2_init(void)
+static void pwm_tim2_init(void)
 {
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_OC_InitTypeDef sConfigOC = {0};
@@ -58,7 +58,7 @@ void pwm_tim2_init(void)
   * @param None
   * @retval None
   */
-void pwm_tim3_init(void)
+static void pwm_tim3_init(void)
 {
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_OC_InitTypeDef sConfigOC = {0};
@@ -97,7 +97,7 @@ void pwm_tim3_init(void)
   * @param None
   * @retval None
   */
-void pwm_tim17_init(void)
+static void pwm_tim17_init(void)
 {
   TIM_OC_InitTypeDef sConfigOC = {0};
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
@@ -145,7 +145,7 @@ void pwm_tim17_init(void)
 
 }
 
-void set_pwm(PWM_PIN pwm, uint8_t percentage)
+static void set_pwm(MOTOR motor, uint8_t percentage)
 {
     if(percentage > 100)
     {
@@ -154,22 +154,29 @@ void set_pwm(PWM_PIN pwm, uint8_t percentage)
     
     uint32_t compare_value = (DUTY_CYCLE_MS * percentage) / 100;
 
-    switch(pwm)
+    switch(motor)
     {
-        case PWM0:
+        case Motor_0:
         __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, compare_value);
         break;
 
-        case PWM1:
+        case Motor_1:
         __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, compare_value);
         break;
 
-        case PWM2:
+        case Motor_2:
         __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, compare_value);
         break;
 
-        case PWM3:
+        case Motor_3:
         __HAL_TIM_SET_COMPARE(&htim17, TIM_CHANNEL_1, compare_value);
         break;
     }
+}
+
+void motor_control_init(void)
+{
+  pwm_tim2_init();
+  pwm_tim3_init();
+  pwm_tim17_init();
 }
