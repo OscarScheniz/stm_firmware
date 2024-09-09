@@ -146,7 +146,7 @@ static void pwm_tim17_init(void)
 
 }
 
-static void set_pwm(MOTOR motor, uint8_t percentage)
+void motor_control_set(MOTOR motor, uint8_t percentage)
 {
   if(percentage > 100)
   {
