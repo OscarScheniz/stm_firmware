@@ -5,11 +5,11 @@ The project is built and flashed using Makefile and is edited in VSCode.
 
 ## Build
 
-Run `make` to build the project.
+Run `make` in the terminal to build the project.
 
 ## Flash
 
-Run `make flash` to flash the project onto the MCU.
+Run `make flash` in the terminal to flash the project onto the MCU.
 
 ## Debug
 
