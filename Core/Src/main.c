@@ -14,7 +14,7 @@
   *
   ******************************************************************************
   */
-/* Includes ------------------------------------------------------------------*/
+
 #include "motor_control.h"
 #include "error_handling.h"
 
@@ -81,16 +81,12 @@ void SystemClock_Config(void)
   }
 }
 
-
-
 /**
   * @brief  The application entry point.
   * @retval int
   */
 int main(void)
 {
-  /* MCU Configuration--------------------------------------------------------*/
-
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
@@ -102,7 +98,6 @@ int main(void)
   motor_control_init();
   motor_control_start();
   
-
   /* Infinite loop */
   while (1)
   {
