@@ -19,8 +19,9 @@
 #include "timers.h"
 #include "error_handling.h"
 
-#define PWM_PULSE_MIN 1050 //Full reverse
-#define PWM_PULSE_MAX 1950 //Full forward
+#define PWM_PULSE_MIN     1050 //Full reverse
+#define PWM_PULSE_NEUTRAL 1500 //Neutral
+#define PWM_PULSE_MAX     1950 //Full forward
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
@@ -53,7 +54,7 @@ static void pwm_tim2_init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = PWM_PULSE_MIN;
+  sConfigOC.Pulse = PWM_PULSE_NEUTRAL;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
@@ -95,7 +96,7 @@ static void pwm_tim3_init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = PWM_PULSE_MIN;
+  sConfigOC.Pulse = PWM_PULSE_NEUTRAL;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
@@ -132,7 +133,7 @@ static void pwm_tim17_init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = PWM_PULSE_MIN;
+  sConfigOC.Pulse = PWM_PULSE_NEUTRAL;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
