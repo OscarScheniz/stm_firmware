@@ -3,8 +3,8 @@
 #include "timers.h"
 #include "error_handling.h"
 
-#define PWM_PULSE_MIN 1050
-#define PWM_PULSE_MAX 1950
+#define PWM_PULSE_MIN 1050 //Full reverse
+#define PWM_PULSE_MAX 1950 //Full forward
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
@@ -146,30 +146,39 @@ static void pwm_tim17_init(void)
 
 }
 
-void motor_control_set(MOTOR motor, uint8_t percentage)
+/**
+ * @brief Function takes in desired motor to control and percentage of motor speed.
+ * @param MOTOR motor - motor to apply speed to
+ * @param int8_t percentage - Percentage of speed: -100 (full reverse) 100 (full forward)
+ */
+static void motor_control_set(MOTOR motor, int8_t percentage)
 {
-  if(percentage > 100)
+  if (percentage < -100)
   {
-      percentage = 100;
+      percentage = -100;
+  }
+  else if (percentage > 100)
+  {
+    percentage = 100;
   }
   
-  uint32_t pwm_value = PWM_PULSE_MIN + (percentage * (PWM_PULSE_MAX - PWM_PULSE_MIN)) / 100;
+  uint32_t pwm_value = PWM_PULSE_MIN + ((percentage + 100) * (PWM_PULSE_MAX - PWM_PULSE_MIN)) / 200;
 
   switch(motor)
   {
-      case Motor_0:
+      case FRONT_LEFT:
       __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pwm_value);
       break;
 
-      case Motor_1:
+      case FRONT_RIGHT:
       __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pwm_value);
       break;
 
-      case Motor_2:
+      case REAR_LEFT:
       __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, pwm_value);
       break;
 
-      case Motor_3:
+      case REAR_RIGHT:
       __HAL_TIM_SET_COMPARE(&htim17, TIM_CHANNEL_1, pwm_value);
       break;
   }
@@ -185,9 +194,10 @@ void motor_control_forward(void)
 
 void motor_control_backward(void)
 {
-  /**
-   * TBD
-   */
+  motor_control_set(FRONT_RIGHT, -100);
+  motor_control_set(FRONT_LEFT, -100);
+  motor_control_set(REAR_RIGHT, -100);
+  motor_control_set(REAR_LEFT, -100);
 }
 
 void motor_control_turn_left(void)

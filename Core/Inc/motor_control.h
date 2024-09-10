@@ -14,7 +14,6 @@ typedef enum
 
 void motor_control_init(void);
 void motor_control_start(void);
-//void motor_control_set(MOTOR motor, uint8_t percentage);
 
 
 #endif /* __MOTOR_CONTROL_H */
