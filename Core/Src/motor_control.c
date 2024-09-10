@@ -1,3 +1,19 @@
+/**
+  ******************************************************************************
+  * @file           : motor_control.c
+  * @brief          : Motor controller
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2024 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #include "motor_control.h"
 #include "timers.h"
@@ -9,7 +25,6 @@
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim17;
-
 
 /**
   * @brief TIM2 Initialization Function
@@ -51,7 +66,6 @@ static void pwm_tim2_init(void)
   }
 
   timers_MspPostInit(&htim2);
-
 }
 
 /**
@@ -90,7 +104,6 @@ static void pwm_tim3_init(void)
   }
 
   timers_MspPostInit(&htim3);
-
 }
 
 /**
@@ -143,13 +156,13 @@ static void pwm_tim17_init(void)
   }
 
   timers_MspPostInit(&htim17);
-
 }
 
 /**
  * @brief Function takes in desired motor to control and percentage of motor speed.
  * @param MOTOR motor - motor to apply speed to
  * @param int8_t percentage - Percentage of speed: -100 (full reverse) 100 (full forward)
+ * @retval None
  */
 static void motor_control_set(MOTOR motor, int8_t percentage)
 {
@@ -184,38 +197,65 @@ static void motor_control_set(MOTOR motor, int8_t percentage)
   }
 }
 
-void motor_control_forward(void)
+/**
+ * @brief Function sets the motors to go forwards
+ * @param int8_t percentage - Speed of the motors (0-100)
+ * @retval None
+ */
+void motor_control_forward(uint8_t percentage)
 {
-  motor_control_set(FRONT_RIGHT, 100);
-  motor_control_set(FRONT_LEFT, 100);
-  motor_control_set(REAR_RIGHT, 100);
-  motor_control_set(REAR_LEFT, 100);
+  motor_control_set(FRONT_RIGHT, percentage);
+  motor_control_set(FRONT_LEFT, percentage);
+  motor_control_set(REAR_RIGHT, percentage);
+  motor_control_set(REAR_LEFT, percentage);
 }
 
-void motor_control_backward(void)
+/**
+ * @brief Function sets the motors to go backwards
+ * @param int8_t percentage - Speed of the motors (0-100)
+ * @retval None
+ */
+void motor_control_backward(uint8_t percentage)
 {
-  motor_control_set(FRONT_RIGHT, -100);
-  motor_control_set(FRONT_LEFT, -100);
-  motor_control_set(REAR_RIGHT, -100);
-  motor_control_set(REAR_LEFT, -100);
+  int8_t converted_percent = percentage * -1;
+
+  motor_control_set(FRONT_RIGHT, converted_percent);
+  motor_control_set(FRONT_LEFT, converted_percent);
+  motor_control_set(REAR_RIGHT, converted_percent);
+  motor_control_set(REAR_LEFT, converted_percent);
 }
 
-void motor_control_turn_left(void)
+/**
+ * @brief Function sets the motors to turn right
+ * @param int8_t percentage - Speed of the motors (0-100)
+ * @retval None
+ */
+void motor_control_turn_right(uint8_t percentage)
 {
-  motor_control_set(FRONT_RIGHT, 100 * 0.5);
-  motor_control_set(FRONT_LEFT, 100);
-  motor_control_set(REAR_RIGHT, 100 * 0.5);
-  motor_control_set(REAR_LEFT, 100);
+  motor_control_set(FRONT_RIGHT, percentage * 0.5);
+  motor_control_set(FRONT_LEFT, percentage);
+  motor_control_set(REAR_RIGHT, percentage * 0.5);
+  motor_control_set(REAR_LEFT, percentage);
 }
 
-void motor_control_turn_right(void)
+/**
+ * @brief Function sets the motors to turn left
+ * @param int8_t percentage - Speed of the motors (0-100)
+ * @retval None
+ */
+void motor_control_turn_left(uint8_t percentage)
 {
-  motor_control_set(FRONT_RIGHT, 100);
-  motor_control_set(FRONT_LEFT, 100 * 0.5);
-  motor_control_set(REAR_RIGHT, 100);
-  motor_control_set(REAR_LEFT, 100 * 0.5 );
+  motor_control_set(FRONT_RIGHT, percentage);
+  motor_control_set(FRONT_LEFT, percentage * 0.5);
+  motor_control_set(REAR_RIGHT, percentage);
+  motor_control_set(REAR_LEFT, percentage * 0.5 );
 }
 
+/**
+ * @brief Function sets the PWM signal so the motors stop.
+ * @param None
+ * @retval None
+ */
 void motor_control_stop(void)
 {
   motor_control_set(FRONT_LEFT, 0);
@@ -224,6 +264,11 @@ void motor_control_stop(void)
   motor_control_set(REAR_RIGHT, 0);
 }
 
+/**
+ * @brief Function starts PWM generation on all timers and channels
+ * @param None
+ * @retval None
+ */
 void motor_control_start(void)
 {
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
@@ -232,6 +277,11 @@ void motor_control_start(void)
   HAL_TIM_PWM_Start(&htim17, TIM_CHANNEL_1);
 }
 
+/**
+ * @brief Function initiates the pwm signals for controlling the motors
+ * @param None
+ * @retval None
+ */
 void motor_control_init(void)
 {
   pwm_tim2_init();
