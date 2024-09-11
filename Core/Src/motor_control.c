@@ -22,6 +22,8 @@
 #define PWM_PULSE_MIN     1050 //Full reverse
 #define PWM_PULSE_NEUTRAL 1500 //Neutral
 #define PWM_PULSE_MAX     1950 //Full forward
+#define PWM_PRESCALER			7
+#define PWM_PERIOD				20000
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
@@ -38,9 +40,9 @@ static void pwm_tim2_init(void)
   TIM_OC_InitTypeDef sConfigOC = {0};
 
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 7;
+  htim2.Init.Prescaler = PWM_PRESCALER;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 20000;
+  htim2.Init.Period = PWM_PERIOD;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
@@ -80,9 +82,9 @@ static void pwm_tim3_init(void)
   TIM_OC_InitTypeDef sConfigOC = {0};
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 7;
+  htim3.Init.Prescaler = PWM_PRESCALER;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 20000;
+  htim3.Init.Period = PWM_PERIOD;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
@@ -118,9 +120,9 @@ static void pwm_tim17_init(void)
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
 
   htim17.Instance = TIM17;
-  htim17.Init.Prescaler = 7;
+  htim17.Init.Prescaler = PWM_PRESCALER;
   htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim17.Init.Period = 20000;
+  htim17.Init.Period = PWM_PERIOD;
   htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim17.Init.RepetitionCounter = 0;
   htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
