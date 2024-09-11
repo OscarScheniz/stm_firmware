@@ -17,6 +17,7 @@
 
 #include "error_handling.h"
 #include "stm32f3xx_hal.h"
+#include "SEGGER_RTT.h"
 
 /**
   * @brief  This function is executed in case of error occurrence.
@@ -25,6 +26,9 @@
 void Error_Handler(void)
 {
   /* User can add his own implementation to report the HAL error return state */
+  log_info("Error Handler - Application stopped\n");
+  HAL_Delay(50);
+
   __disable_irq();
   while (1)
   {

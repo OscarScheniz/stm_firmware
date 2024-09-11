@@ -18,6 +18,7 @@
 #include "motor_control.h"
 #include "timers.h"
 #include "error_handling.h"
+#include "SEGGER_RTT.h"
 
 #define PWM_PULSE_MIN     1050 //Full reverse
 #define PWM_PULSE_NEUTRAL 1500 //Neutral
@@ -179,6 +180,7 @@ static void motor_control_set(MOTOR motor, int8_t percentage)
   }
   
   uint32_t pwm_value = PWM_PULSE_MIN + ((percentage + 100) * (PWM_PULSE_MAX - PWM_PULSE_MIN)) / 200;
+	//SEGGER_RTT_printf(0, "PWM:%d\n", pwm_value);
 
   switch(motor)
   {
@@ -265,6 +267,7 @@ void motor_control_stop(void)
   motor_control_set(FRONT_RIGHT, 0);
   motor_control_set(REAR_LEFT, 0);
   motor_control_set(REAR_RIGHT, 0);
+	log_info("PWM Signals Stopped\n");
 }
 
 /**
@@ -278,6 +281,7 @@ void motor_control_start(void)
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim17, TIM_CHANNEL_1);
+	log_info("PWM Signals Started\n");
 }
 
 /**
@@ -290,4 +294,5 @@ void motor_control_init(void)
   pwm_tim2_init();
   pwm_tim3_init();
   pwm_tim17_init();
+	log_info("PWM Signals Initiated\n");
 }

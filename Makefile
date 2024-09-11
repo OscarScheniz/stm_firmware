@@ -70,6 +70,7 @@ Core/Src/motor_control.c \
 Core/Src/error_handling.c \
 Core/Src/stm32f3xx_it.c \
 Core/Src/SEGGER_RTT.c \
+Core/Src/SEGGER_RTT_printf.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.c \
