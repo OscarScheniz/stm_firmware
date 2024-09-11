@@ -20,7 +20,7 @@
 /**
 * Initializes the Global MSP.
 */
-void timers_MspInit(void)
+void HAL_TIM_MspInit(void)
 {
     __HAL_RCC_SYSCFG_CLK_ENABLE();
     __HAL_RCC_PWR_CLK_ENABLE();
@@ -32,7 +32,7 @@ void timers_MspInit(void)
 * @param htim_pwm: TIM_PWM handle pointer
 * @retval None
 */
-void timers_PWM_MspInit(TIM_HandleTypeDef* htim_pwm)
+void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_pwm)
 {
     if(htim_pwm->Instance==TIM2)
     {
@@ -52,7 +52,7 @@ void timers_PWM_MspInit(TIM_HandleTypeDef* htim_pwm)
 * @param htim_base: TIM_Base handle pointer
 * @retval None
 */
-void timers_Base_MspInit(TIM_HandleTypeDef* htim_base)
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 {
     if(htim_base->Instance==TIM17)
     {
@@ -61,7 +61,7 @@ void timers_Base_MspInit(TIM_HandleTypeDef* htim_base)
     }
 }
 
-void timers_MspPostInit(TIM_HandleTypeDef* htim)
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     if(htim->Instance==TIM2)
@@ -115,7 +115,7 @@ void timers_MspPostInit(TIM_HandleTypeDef* htim)
 * @param htim_pwm: TIM_PWM handle pointer
 * @retval None
 */
-void timers_pwm_MspDeInit(TIM_HandleTypeDef* htim_pwm)
+void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* htim_pwm)
 {
     if(htim_pwm->Instance==TIM2)
     {
@@ -135,7 +135,7 @@ void timers_pwm_MspDeInit(TIM_HandleTypeDef* htim_pwm)
 * @param htim_base: TIM_Base handle pointer
 * @retval None
 */
-void timer_base_MspDeInit(TIM_HandleTypeDef* htim_base)
+void HAL_TIM_BASE_MspDeInit(TIM_HandleTypeDef* htim_base)
 {
     if(htim_base->Instance==TIM17)
     {
