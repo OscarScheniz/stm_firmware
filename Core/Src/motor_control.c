@@ -38,9 +38,9 @@ static void pwm_tim2_init(void)
   TIM_OC_InitTypeDef sConfigOC = {0};
 
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 71;
+  htim2.Init.Prescaler = 7;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 19999;
+  htim2.Init.Period = 20000;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
@@ -66,7 +66,7 @@ static void pwm_tim2_init(void)
     Error_Handler();
   }
 
-  timers_MspPostInit(&htim2);
+  HAL_TIM_MspPostInit(&htim2);
 }
 
 /**
@@ -80,9 +80,9 @@ static void pwm_tim3_init(void)
   TIM_OC_InitTypeDef sConfigOC = {0};
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 71;
+  htim3.Init.Prescaler = 7;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 19999;
+  htim3.Init.Period = 20000;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
@@ -104,7 +104,7 @@ static void pwm_tim3_init(void)
     Error_Handler();
   }
 
-  timers_MspPostInit(&htim3);
+  HAL_TIM_MspPostInit(&htim3);
 }
 
 /**
@@ -118,9 +118,9 @@ static void pwm_tim17_init(void)
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
 
   htim17.Instance = TIM17;
-  htim17.Init.Prescaler = 71;
+  htim17.Init.Prescaler = 7;
   htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim17.Init.Period = 19999;
+  htim17.Init.Period = 20000;
   htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim17.Init.RepetitionCounter = 0;
   htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -156,7 +156,7 @@ static void pwm_tim17_init(void)
     Error_Handler();
   }
 
-  timers_MspPostInit(&htim17);
+  HAL_TIM_MspPostInit(&htim17);
 }
 
 /**
@@ -180,21 +180,21 @@ static void motor_control_set(MOTOR motor, int8_t percentage)
 
   switch(motor)
   {
-      case FRONT_LEFT:
-      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pwm_value);
-      break;
+    case FRONT_LEFT:
+    	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pwm_value);
+    break;
 
-      case FRONT_RIGHT:
+    case FRONT_RIGHT:
       __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pwm_value);
-      break;
+    break;
 
-      case REAR_LEFT:
+    case REAR_LEFT:
       __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, pwm_value);
-      break;
+    break;
 
-      case REAR_RIGHT:
+    case REAR_RIGHT:
       __HAL_TIM_SET_COMPARE(&htim17, TIM_CHANNEL_1, pwm_value);
-      break;
+    break;
   }
 }
 
