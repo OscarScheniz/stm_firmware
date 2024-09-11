@@ -17,6 +17,7 @@
 
 #include "motor_control.h"
 #include "error_handling.h"
+#include "SEGGER_RTT.h"
 
 #define GREEN_LED_Pin GPIO_PIN_3
 #define GREEN_LED_GPIO_Port GPIOB
@@ -89,6 +90,7 @@ int main(void)
 {
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
+  SEGGER_RTT_Init();
 
   /* Configure the system clock */
   SystemClock_Config();
@@ -97,12 +99,73 @@ int main(void)
   MX_GPIO_Init();
   motor_control_init();
   motor_control_start();
+  motor_control_forward(0);
+  log_info("Application started\n");
   
   /* Infinite loop */
   while (1)
   {
+    motor_control_forward(0);
     HAL_Delay(500);
     HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_SET);
+    motor_control_forward(20);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
+    motor_control_forward(40);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_SET);
+    motor_control_forward(60);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
+    motor_control_forward(80);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_SET);
+    motor_control_forward(100);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
+    motor_control_forward(80);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_SET);
+    motor_control_forward(60);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
+    motor_control_forward(40);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_SET);
+    motor_control_forward(20);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
+    motor_control_forward(0);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_SET);
+    motor_control_backward(20);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
+    motor_control_backward(40);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_SET);
+    motor_control_backward(60);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
+    motor_control_backward(80);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_SET);
+    motor_control_backward(100);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
+    motor_control_backward(80);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_SET);
+    motor_control_backward(60);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
+    motor_control_backward(40);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_SET);
+    motor_control_backward(20);
+    HAL_Delay(500);
+    HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
+    motor_control_backward(0);
     HAL_Delay(500);
     HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
   }
