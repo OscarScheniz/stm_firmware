@@ -99,7 +99,6 @@ int main(void)
   MX_GPIO_Init();
   motor_control_init();
   motor_control_start();
-  motor_control_forward(0);
   log_info("Application started\n");
   
   /* Infinite loop */
