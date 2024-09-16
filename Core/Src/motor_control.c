@@ -23,7 +23,7 @@
 #define PWM_PULSE_MIN     1050 //Full reverse
 #define PWM_PULSE_NEUTRAL 1500 //Neutral
 #define PWM_PULSE_MAX     1950 //Full forward
-#define PWM_PRESCALER			7
+#define PWM_PRESCALER			3
 #define PWM_PERIOD				20000
 
 TIM_HandleTypeDef htim2;
@@ -185,15 +185,15 @@ static void motor_control_set(MOTOR motor, int8_t percentage)
   switch(motor)
   {
     case FRONT_LEFT:
-    	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pwm_value);
+    	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pwm_value);
     break;
 
     case FRONT_RIGHT:
-      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pwm_value);
+      __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, pwm_value);
     break;
 
     case REAR_LEFT:
-      __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, pwm_value);
+      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pwm_value);
     break;
 
     case REAR_RIGHT:
@@ -210,9 +210,9 @@ static void motor_control_set(MOTOR motor, int8_t percentage)
 void motor_control_forward(uint8_t percentage)
 {
 	motor_control_set(FRONT_LEFT, percentage);
-  motor_control_set(FRONT_RIGHT, percentage);
+  motor_control_set(FRONT_RIGHT, percentage * -1);
   motor_control_set(REAR_LEFT, percentage);
-  motor_control_set(REAR_RIGHT, percentage);
+	motor_control_set(REAR_RIGHT, percentage * -1);
 }
 
 /**
@@ -224,8 +224,8 @@ void motor_control_backward(uint8_t percentage)
 {
   int8_t converted_percent = percentage * -1;
 
-	motor_control_set(FRONT_LEFT, converted_percent);
-  motor_control_set(FRONT_RIGHT, converted_percent);
+	motor_control_set(FRONT_LEFT, percentage);
+  motor_control_set(FRONT_RIGHT, percentage);
 	motor_control_set(REAR_LEFT, converted_percent);
   motor_control_set(REAR_RIGHT, converted_percent);
 }
@@ -238,9 +238,9 @@ void motor_control_backward(uint8_t percentage)
 void motor_control_turn_right(uint8_t percentage)
 {
 	motor_control_set(FRONT_LEFT, percentage);
-  motor_control_set(FRONT_RIGHT, percentage * 0.5);
+  motor_control_set(FRONT_RIGHT, percentage * -0.5 );
   motor_control_set(REAR_LEFT, percentage);
-  motor_control_set(REAR_RIGHT, percentage * 0.5);
+  motor_control_set(REAR_RIGHT, percentage * -0.5);
 }
 
 /**
@@ -251,9 +251,9 @@ void motor_control_turn_right(uint8_t percentage)
 void motor_control_turn_left(uint8_t percentage)
 {
 	motor_control_set(FRONT_LEFT, percentage * 0.5);
-  motor_control_set(FRONT_RIGHT, percentage);
-  motor_control_set(REAR_LEFT, percentage * 0.5 );
-  motor_control_set(REAR_RIGHT, percentage);
+  motor_control_set(FRONT_RIGHT, percentage * -1);
+  motor_control_set(REAR_LEFT, percentage * 0.5);
+  motor_control_set(REAR_RIGHT, percentage * -1);
 }
 
 /**
